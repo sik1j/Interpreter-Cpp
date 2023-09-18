@@ -10,4 +10,7 @@ add_executable(Interpreter_Cpp
         Lox.h
         main.cpp
         Token.h
-        Token.cpp)
+        Token.cpp
+        Scanner.cpp
+        Scanner.h
+)

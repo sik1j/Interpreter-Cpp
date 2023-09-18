@@ -22,9 +22,10 @@ int Lox::runFile(std::string path) {
     std::string line;
     while (std::getline(file, line)) {
         run(line);
-        if (hadError) {
-            return EX_DATAERR;
-        }
+    }
+    // dont execute code if error present
+    if (hadError) {
+        return EX_DATAERR;
     }
 
     return EX_OK;

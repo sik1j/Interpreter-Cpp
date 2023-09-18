@@ -8,4 +8,6 @@ include_directories(.)
 add_executable(Interpreter_Cpp
         Lox.cpp
         Lox.h
-        main.cpp)
+        main.cpp
+        Token.h
+        Token.cpp)

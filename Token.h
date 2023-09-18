@@ -30,6 +30,7 @@ enum TokenType {
 };
 
 class Token {
+private:
     const TokenType type;
     const std::string lexeme;
 //    object literal;

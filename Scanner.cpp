@@ -5,8 +5,6 @@
 #include "Scanner.h"
 #include "Lox.h"
 
-#include <utility>
-
 Scanner::Scanner(std::string source) : source(std::move(source)) {}
 
 // goes through the source string, adding tokens, until all tokens have been added to the vector
@@ -85,6 +83,7 @@ void Scanner::scanToken() {
         case '\n':
             line++;
             break;
+        case '"': string(); break;
 
         default:
             Lox::error(line, "Unexpected character");
@@ -119,4 +118,25 @@ bool Scanner::match(char expected) {
 char Scanner::peek() {
     if (isAtEnd()) return '\0';
     return source[current];
+}
+
+void Scanner::string() {
+    while (peek() != '"' && !isAtEnd()) {
+        if (peek() == '\n') {
+            line++;
+        }
+        advance();
+    }
+
+    if (isAtEnd()) {
+        Lox::error(line, "Unterminated String");
+        return;
+    }
+
+    // The closing "
+    advance();
+
+    // Trim the surrounding quotes
+    auto heapString = new std::string(source.substr(start + 1, current - start - 2));
+    addToken(STRING, heapString);
 }

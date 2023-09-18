@@ -32,8 +32,12 @@ private:
     bool match(char expected);
     // returns the next character in sequence without consuming it
     char peek();
-    // responsible for handling string literals
+    // returns the character after peek();
+    char peekNext();
+    // responsible for lexing string literals
     void string();
+    // responsible for lexing number literals
+    void number();
 public:
     explicit Scanner(std::string source);
     std::vector<Token> scanTokens();

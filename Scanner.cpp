@@ -86,7 +86,12 @@ void Scanner::scanToken() {
         case '"': string(); break;
 
         default:
-            Lox::error(line, "Unexpected character");
+            if (isdigit(c)) {
+                number();
+            }
+            else {
+                Lox::error(line, "Unexpected character");
+            }
             break;
     }
 }
@@ -120,6 +125,11 @@ char Scanner::peek() {
     return source[current];
 }
 
+char Scanner::peekNext() {
+    if (current+1 >= source.length()) return '\0';
+    return source[current+1];
+}
+
 void Scanner::string() {
     while (peek() != '"' && !isAtEnd()) {
         if (peek() == '\n') {
@@ -139,4 +149,22 @@ void Scanner::string() {
     // Trim the surrounding quotes
     auto heapString = new std::string(source.substr(start + 1, current - start - 2));
     addToken(STRING, heapString);
+}
+
+void Scanner::number() {
+    while (isdigit(peek())) {
+        advance();
+    }
+
+    if (peek() == '.' && isdigit(peekNext())) {
+        // consume the '.'
+        advance();
+    }
+
+    while (isdigit(peek())) {
+        advance();
+    }
+
+    auto heapNumber = new double(std::stod(source.substr(start, current-start)));
+    addToken(NUMBER, heapNumber);
 }

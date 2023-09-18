@@ -21,10 +21,14 @@ int Lox::runFile(std::string path) {
         return EX_OSFILE;
     }
 
+    // convert entire file into a string
     std::string line;
+    std::string source;
     while (std::getline(file, line)) {
-        run(line);
+        source += line + '\n';
     }
+
+    run(source);
     // dont execute code if error present
     if (hadError) {
         return EX_DATAERR;

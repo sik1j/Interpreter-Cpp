@@ -8,7 +8,20 @@
 
 
 std::ostream &operator<<(std::ostream &os, const Token &token) {
-    os << "type: " << token.type << " lexeme: " << token.lexeme;
+    os << "type: " << token.type << " lexeme: " << token.lexeme << " literal: ";
+    switch (token.type) {
+        case STRING:
+            os << *(std::string*)(token.literal);
+            break;
+        case NUMBER:
+            os << *(double*)(token.literal);
+            break;
+        case IDENTIFIER:
+            os << *(std::string*)(token.literal);
+            break;
+        default:
+            os << "Non-literal";
+    }
     return os;
 }
 

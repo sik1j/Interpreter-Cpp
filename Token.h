@@ -31,15 +31,18 @@ enum TokenType {
 
 class Token {
 private:
+
     const TokenType type;
     const std::string lexeme;
-//    object literal;
+    // literal type defined by TokenType
+    void* literal;
     int line;
 
 public:
-    Token(TokenType type, std::string lexeme, int line);
+    Token(TokenType type, std::string lexeme, void* literal, int line);
 
     friend std::ostream &operator<<(std::ostream &os, const Token &token);
+
 };
 
 

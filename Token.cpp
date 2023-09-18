@@ -6,9 +6,11 @@
 
 #include <utility>
 
-Token::Token(TokenType type, std::string lexeme, int line) : type(type), lexeme(std::move(lexeme)), line(line) {}
 
 std::ostream &operator<<(std::ostream &os, const Token &token) {
     os << "type: " << token.type << " lexeme: " << token.lexeme;
     return os;
 }
+
+Token::Token(TokenType type, std::string lexeme, void *literal, int line)
+  : type(type), lexeme(std::move(lexeme)), literal(literal), line(line) {};

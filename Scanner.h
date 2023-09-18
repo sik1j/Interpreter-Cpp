@@ -24,12 +24,16 @@ private:
 
     bool isAtEnd();
     void scanToken();
+    // returns the next character in sequence while consuming it
     char advance();
     void addToken(TokenType type);
     void addToken(TokenType type, void* literal);
     // checks if the next character matches the expected char
     bool match(char expected);
+    // returns the next character in sequence without consuming it
     char peek();
+    // responsible for handling string literals
+    void string();
 public:
     explicit Scanner(std::string source);
     std::vector<Token> scanTokens();

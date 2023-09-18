@@ -8,6 +8,8 @@
 #include <vector>
 #include "Lox.h"
 
+bool Lox::hadError = false;
+
 // interpret source file
 int Lox::runFile(std::string path) {
     std::ifstream file;

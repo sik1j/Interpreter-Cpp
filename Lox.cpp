@@ -22,6 +22,9 @@ int Lox::runFile(std::string path) {
     std::string line;
     while (std::getline(file, line)) {
         run(line);
+        if (hadError) {
+            return EX_DATAERR;
+        }
     }
 
     return EX_OK;
@@ -38,6 +41,7 @@ int Lox::runPrompt() {
             return EX_OK;
         }
         run(line);
+        hadError = false;
     }
 }
 
@@ -82,4 +86,13 @@ void Lox::run(std::string source) {
     for (const auto& s : tokens) {
         std::cout << s << std::endl;
     }
+}
+
+void Lox::error(int line, std::string message) {
+    report(line, "", message);
+}
+
+void Lox::report(int line, std::string where, std::string message) {
+    std::cerr << "[line " << line << "] Error" << where << ": " << message;
+    hadError = true;
 }

@@ -10,9 +10,14 @@
 
 class Lox {
 private:
+    bool hadError = false;
+
     int runFile(std::string path);
     int runPrompt();
     void run(std::string source);
+
+    void error(int line, std::string message);
+    void report(int line, std::string where, std::string message);
 public:
     int runner(int argc, char *argv[]);
 };

@@ -5,7 +5,24 @@
 #include "Scanner.h"
 #include "Lox.h"
 
-Scanner::Scanner(std::string source) : source(std::move(source)) {}
+Scanner::Scanner(std::string source) : source(std::move(source)) {
+    keywords["and"] =    AND;
+    keywords["class"] =  CLASS;
+    keywords["else"] =   ELSE;
+    keywords["false"] =  FALSE;
+    keywords["for"] =    FOR;
+    keywords["fun"] =    FUN;
+    keywords["if"] =     IF;
+    keywords["nil"] =    NIL;
+    keywords["or"] =     OR;
+    keywords["print"] =  PRINT;
+    keywords["return"] = RETURN;
+    keywords["super"] =  SUPER;
+    keywords["this"] =   THIS;
+    keywords["true"] =   TRUE;
+    keywords["var"] =    VAR;
+    keywords["while"] =  WHILE;
+}
 
 // goes through the source string, adding tokens, until all tokens have been added to the vector
 std::vector<Token> Scanner::scanTokens() {
@@ -89,6 +106,9 @@ void Scanner::scanToken() {
             if (isdigit(c)) {
                 number();
             }
+            else if(isalpha(c)) {
+                identifier();
+            }
             else {
                 Lox::error(line, "Unexpected character");
             }
@@ -167,4 +187,12 @@ void Scanner::number() {
 
     auto heapNumber = new double(std::stod(source.substr(start, current-start)));
     addToken(NUMBER, heapNumber);
+}
+
+void Scanner::identifier() {
+    while (isalnum(peek())) advance();
+    std::string text(source.substr(start, current-start));
+    // is IDENTIFIER if text is not a keyword
+    TokenType type(keywords.find(text) == keywords.end() ? IDENTIFIER : keywords[text]);
+    addToken(type);
 }

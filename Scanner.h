@@ -8,12 +8,15 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "Token.h"
 
 class Scanner {
 private:
     const std::string source;
     std::vector<Token> tokens;
+    static std::unordered_map<std::string, TokenType> keywords;
+
 
     // start of token being considered
     int start = 0;
@@ -38,6 +41,8 @@ private:
     void string();
     // responsible for lexing number literals
     void number();
+    // responsible for lexing identifiers, including reserved keywords
+    void identifier();
 public:
     explicit Scanner(std::string source);
     std::vector<Token> scanTokens();

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sysexits.h>
 #include <fstream>
+#include <utility>
 #include <vector>
 #include "Lox.h"
 
@@ -75,23 +76,12 @@ int Lox::runner(int argc, char *argv[]) {
 }
 
 // Lexer
+#include "Scanner.h"
 void Lox::run(std::string source) {
-    int start = 0;
-    int end = 1;
-    std::vector<std::string> tokens;
-
-    while (end <= source.length()) {
-        if (isspace(source[end])) {
-            tokens.push_back(source.substr(start, end-start));
-            end++;
-            start = end;
-        }
-        end++;
-    }
-    tokens.push_back(source.substr(start, end-start));
-
-    for (const auto& s : tokens) {
-        std::cout << s << std::endl;
+    Scanner scanner(std::move(source));
+    auto tokens = scanner.scanTokens();
+    for (auto &token : tokens) {
+        std::cout << token << ", ";
     }
 }
 

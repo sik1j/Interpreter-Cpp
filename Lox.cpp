@@ -78,10 +78,10 @@ int Lox::runner(int argc, char *argv[]) {
 // Lexer
 #include "Scanner.h"
 void Lox::run(std::string source) {
-    Scanner scanner(std::move(source));
+    Scanner scanner(source);
     auto tokens = scanner.scanTokens();
     for (auto &token : tokens) {
-        std::cout << token << ", ";
+        std::cout << token << ", " << std::endl;
     }
 }
 

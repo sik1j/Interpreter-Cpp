@@ -5,6 +5,8 @@
 #include "Scanner.h"
 #include "Lox.h"
 
+std::unordered_map<std::string, TokenType> Scanner::keywords;
+
 Scanner::Scanner(std::string source) : source(std::move(source)) {
     keywords["and"] =    AND;
     keywords["class"] =  CLASS;
